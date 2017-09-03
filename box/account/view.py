@@ -6,6 +6,7 @@ from box.account.model import User, Address
 from box.captcha.sms import validate_captcha
 from box.const import (HTTP_BAD_REQUEST, HTTP_UNAUTHORIZED, HTTP_NOT_FOUND,
                        EMSG_PARAMS_MISSING)
+from box.utils import logger
 from box.utils.api import success, fail
 from box.wechat.auth import wechat_login, get_current_user
 
@@ -101,6 +102,9 @@ def create_address():
     location = request.json.get('location')
     contact_name = request.json.get('contact_name')
     contact_phone = request.json.get('contact_phone')
+
+    logger.info("插入数据: user_id = {} province = {} city = {} area = {} location = {} name = {} phone = {}".format(
+        user_id, province, city, area, location, contact_name, contact_phone))
 
     address = Address.create(
         user_id=user_id,
