@@ -10,6 +10,7 @@ from box.app import create_app
 from box.collecation.model import Mode
 from box.ext import db
 from box.product.model import Product
+from box.utils import logger
 
 application = create_app('box')
 manager = Manager(application)
@@ -35,16 +36,22 @@ def syncdb():
         db.session.commit()
 
         # 管理员
-        admin = Admin.create('youfeng', '555556')
-        admin.save()
+        if Admin.query.filter_by(username='youfeng').first() is None:
+            admin = Admin.create('youfeng', '555556')
+            admin.save()
+            logger.info("添加管理员完成...")
 
         # 产品
-        product = Product(name='定制防潮防水纸箱', price=1, description='413mmx320mmx257mm')
-        product.save()
+        if Product.query.filter_by(name='定制防潮防水纸箱').first() is None:
+            product = Product(name='定制防潮防水纸箱', price=1, description='413mmx320mmx257mm')
+            product.save()
+            logger.info("添加产品完成...")
 
         # 存储费用
-        mode = Mode(name='普通', price=1, description='普通')
-        mode.save()
+        if Mode.query.filter_by(name='普通').first() is None:
+            mode = Mode(name='普通', price=1, description='普通')
+            mode.save()
+            logger.info("添加费用完成...")
 
     print 'Database Created'
 

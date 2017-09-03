@@ -14,7 +14,7 @@ class Product(db.Model):
     # 产品的ID信息
     id = db.Column(db.Integer, primary_key=True)
     # 产品名称
-    name = db.Column(db.String(128), nullable=False)
+    name = db.Column(db.String(128), unique=True, nullable=False)
     # 产品价格
     price = db.Column(db.Integer)
     # 产品描述
