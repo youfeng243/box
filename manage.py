@@ -43,7 +43,8 @@ def syncdb():
 
         # 产品
         if Product.query.filter_by(name='定制防潮防水纸箱').first() is None:
-            product = Product(name='定制防潮防水纸箱', price=1, description='413mmx320mmx257mm')
+            product = Product(name='定制防潮防水纸箱', price=1,
+                              description='413mmx320mmx257mm', avatar_url='www.baidu.com')
             product.save()
             logger.info("添加产品完成...")
 
