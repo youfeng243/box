@@ -4,7 +4,7 @@ from __future__ import absolute_import
 
 from datetime import datetime
 
-from box.account.model import Address
+from box.account.model import Address, User
 from box.ext import db
 from box.product.model import Product
 
@@ -92,7 +92,14 @@ class Order(db.Model):
 
         # 这里查询地址信息进行初始化
         address = Address.get(address_id)
-        obj.address = address.province + address.city + address.area + address.location
+        obj.address = address.province + address.city + address.location
+
+        # 用户名
+        user = User.get_by_user_id(user_id)
+        obj.username = user.nickname
+
+        # 手机
+        obj.mobile = user.mobile
 
         obj.save()
         return obj
