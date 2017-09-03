@@ -102,6 +102,8 @@ def create_address():
     logger.info(json.dumps(request.json, ensure_ascii=False))
 
     province = request.json.get('province')
+    logger.info("province = {}".format(province))
+
     city = request.json.get('city')
     area = request.json.get('area')
     location = request.json.get('location')
@@ -118,7 +120,7 @@ def create_address():
     # logger.info("insert data: user_id = {} province = {} city = {} area = {} location = {} name = {} phone = {}".format(
     #     user_id, province, city, area, location, contact_name, contact_phone))
 
-    address = Address.create(
+    addr = Address.create(
         user_id=user_id,
         province=province,
         city=city,
@@ -128,7 +130,7 @@ def create_address():
         contact_phone=contact_phone,
     )
 
-    return success(address.as_resp())
+    return success(addr.as_resp())
 
 
 # 修改地址信息
