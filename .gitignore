@@ -1,0 +1,5 @@
+venv/
+.env
+*.py[co]
+*.swp
+.idea/

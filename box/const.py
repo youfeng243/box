@@ -1,0 +1,23 @@
+# -*- coding: utf-8 -*-
+
+HTTP_OK = 200
+HTTP_BAD_REQUEST = 400
+HTTP_UNAUTHORIZED = 401
+HTTP_FORBIDDEN = 403
+HTTP_NOT_FOUND = 404
+HTTP_SERVER_ERROR = 500
+HTTP_NOT_IMPLEMENTED = 501
+
+ERROR_MSG = {
+    HTTP_OK: 'OK',
+    HTTP_BAD_REQUEST: 'bad request',
+    HTTP_UNAUTHORIZED: 'unauthorized',
+    HTTP_FORBIDDEN: 'forbidden',
+    HTTP_NOT_FOUND: 'not found',
+    HTTP_SERVER_ERROR: 'server error',
+    HTTP_NOT_IMPLEMENTED: 'not implemented',
+}
+
+EMSG_PARAMS_MISSING = u'缺少参数'
+EMSG_PARAMS_ERROR = u'参数错误'
+EMSG_PRODUCT_NOT_FOUND = u'商品不存在'
