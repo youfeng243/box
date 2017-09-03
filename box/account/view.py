@@ -96,6 +96,9 @@ def create_address():
     if request.json is None:
         return fail(HTTP_BAD_REQUEST, EMSG_PARAMS_MISSING)
 
+    # 打印json数据
+    logger.info(request.json)
+
     province = request.json.get('province')
     city = request.json.get('city')
     area = request.json.get('area')
@@ -103,13 +106,13 @@ def create_address():
     contact_name = request.json.get('contact_name')
     contact_phone = request.json.get('contact_phone')
 
-    print user_id
-    print province
-    print city
-    print area
-    print location
-    print contact_name
-    print contact_phone
+    # print user_id
+    # print province
+    # print city
+    # print area
+    # print location
+    # print contact_name
+    # print contact_phone
     # logger.info("insert data: user_id = {} province = {} city = {} area = {} location = {} name = {} phone = {}".format(
     #     user_id, province, city, area, location, contact_name, contact_phone))
 
