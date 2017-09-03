@@ -103,8 +103,15 @@ def create_address():
     contact_name = request.json.get('contact_name')
     contact_phone = request.json.get('contact_phone')
 
-    logger.info("insert data: user_id = {} province = {} city = {} area = {} location = {} name = {} phone = {}".format(
-        user_id, province, city, area, location, contact_name, contact_phone))
+    print user_id
+    print province
+    print city
+    print area
+    print location
+    print contact_name
+    print contact_phone
+    # logger.info("insert data: user_id = {} province = {} city = {} area = {} location = {} name = {} phone = {}".format(
+    #     user_id, province, city, area, location, contact_name, contact_phone))
 
     address = Address.create(
         user_id=user_id,
