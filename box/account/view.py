@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import sys
 
 from flask import Blueprint, request, session
 
@@ -10,6 +11,9 @@ from box.const import (HTTP_BAD_REQUEST, HTTP_UNAUTHORIZED, HTTP_NOT_FOUND,
 from box.utils import logger
 from box.utils.api import success, fail
 from box.wechat.auth import wechat_login, get_current_user
+
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 bp = Blueprint('account', __name__)
 bp.before_request(wechat_login)

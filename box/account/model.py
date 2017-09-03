@@ -2,9 +2,13 @@
 
 from __future__ import absolute_import
 
+import sys
 from datetime import datetime
 
 from box.ext import db
+
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 
 class User(db.Model):
