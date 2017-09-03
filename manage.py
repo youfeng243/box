@@ -7,7 +7,9 @@ from setuptools import find_packages
 
 from box.admin.model import Admin
 from box.app import create_app
+from box.collecation.model import Mode
 from box.ext import db
+from box.product.model import Product
 
 application = create_app('box')
 manager = Manager(application)
@@ -32,8 +34,17 @@ def syncdb():
         db.create_all()
         db.session.commit()
 
+        # 管理员
         admin = Admin.create('youfeng', '555556')
         admin.save()
+
+        # 产品
+        product = Product(name='定制防潮防水纸箱', price=1, description='413mmx320mmx257mm')
+        product.save()
+
+        # 存储费用
+        mode = Mode(name='普通', price=1, description='普通')
+        mode.save()
 
     print 'Database Created'
 

@@ -25,6 +25,10 @@ class Product(db.Model):
                            onupdate=datetime.utcnow)
     deleted_at = db.Column(db.DateTime, default=None)
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
     @classmethod
     def get(cls, id_):
         return cls.query.get(id_)

@@ -304,6 +304,10 @@ class Mode(db.Model):
     description = db.Column(db.String(1024))
     price = db.Column(db.Integer)
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
     @classmethod
     def get(cls, id_):
         return cls.query.get(id_)
