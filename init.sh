@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+pip install virtualenv
+
 virtualenv ~/venv
 ~/venv/bin/pip install -U pip
 ~/venv/bin/pip install -r requirements.txt -i http://pypi.douban.com/simple --trusted-host pypi.douban.com
