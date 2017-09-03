@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+HOST_NAME="127.0.0.1"
+PORT="3306"
+USERNAME="root"
+PASSWORD="000000"
+
+DBNAME="dkw"
+create_db_sql="create database IF NOT EXISTS ${DBNAME}"
+
+mysql -h${HOST_NAME}  -P${PORT}  -u${USERNAME} -p${PASSWORD} -e "${create_db_sql}"
+
 apt-get install libmysqlclient-dev
 pip install virtualenv
 
