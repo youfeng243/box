@@ -4,7 +4,7 @@ from __future__ import absolute_import
 
 from datetime import datetime
 
-from box.account.model import Address, User
+from box.account.model import Address
 from box.ext import db
 from box.product.model import Product
 
@@ -95,11 +95,10 @@ class Order(db.Model):
         obj.address = address.province + address.city + address.location
 
         # 用户名
-        user = User.get_by_user_id(user_id)
-        obj.username = user.nickname
+        obj.username = address.contact_name
 
         # 手机
-        obj.mobile = user.mobile
+        obj.mobile = address.contact_phone
 
         obj.save()
         return obj
