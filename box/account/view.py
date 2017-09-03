@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 
 from flask import Blueprint, request, session
 
@@ -98,6 +99,7 @@ def create_address():
 
     # 打印json数据
     logger.info(request.json)
+    logger.info(json.dumps(request.json, ensure_ascii=False))
 
     province = request.json.get('province')
     city = request.json.get('city')
