@@ -23,7 +23,7 @@ stop() {
 	    return 0
 	fi
 
-    ps -ef | grep -v grep | grep ${project} | grep manage | awk '{print $2}' | xargs kill -9
+    ps -ef | grep -v grep | grep manage | grep 5000 | awk '{print $2}' | xargs kill -9
 
 	echo "${project} stop success..."
 	return 1
@@ -36,7 +36,7 @@ restart() {
 }
 
 status() {
-    pid=`ps -ef | grep -v grep | grep ${project} | grep manage | awk '{print $2}'`
+    pid=`ps -ef | grep -v grep | grep 5000| grep manage | awk '{print $2}'`
     if [ -z "${pid}" ]; then
         return 0
     fi
@@ -49,6 +49,6 @@ case "$1" in
   		$1
 		;;
 	*)
-		echo $"Usage: $0 {start|stop|status|restart|clean}"
+		echo $"Usage: $0 {start|stop|status|restart}"
 		exit 1
 esac
