@@ -98,7 +98,7 @@ def create_address():
         return fail(HTTP_BAD_REQUEST, EMSG_PARAMS_MISSING)
 
     # 打印json数据
-    logger.info(request.json)
+    # logger.info(request.json)
     logger.info(json.dumps(request.json, ensure_ascii=False))
 
     province = request.json.get('province')
