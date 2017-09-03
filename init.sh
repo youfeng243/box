@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+apt-get install libmysqlclient-dev
 pip install virtualenv
 
 virtualenv ~/venv
