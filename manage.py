@@ -54,13 +54,16 @@ def syncdb():
             mode.save()
             logger.info("添加费用完成...")
 
-    print 'Database Created'
+        print 'Database Created'
+
 
 @manager.command
 def dropdb():
     with application.test_request_context():
+        _import_models()
         db.drop_all()
-    print 'Database Dropped'
+        db.session.commit()
+        print 'Database Dropped'
 
 
 if __name__ == '__main__':
