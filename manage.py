@@ -56,18 +56,6 @@ def syncdb():
 
     print 'Database Created'
 
-
-@manager.command
-def deletedb():
-    with application.test_request_context():
-        _import_models()
-
-        db.drop_all()
-        db.session.commit()
-
-    print 'Database deleted'
-
-
 @manager.command
 def dropdb():
     with application.test_request_context():
