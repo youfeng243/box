@@ -76,20 +76,6 @@ def address_list():
     return success(rv)
 
 
-# 获取单个地址信息接口
-# @bp.route('/api/current/address/<int:aid>', methods=['GET'])
-# def get_address(aid):
-#     current_user = get_current_user()
-#     if current_user is None:
-#         return fail(HTTP_UNAUTHORIZED, u'请使用微信客户端登录')
-#
-#     address = Address.get(aid)
-#     if address is None or address.user_id != current_user.id:
-#         return fail(HTTP_NOT_FOUND, u'地址不存在')
-#
-#     return success(address.as_resp())
-
-
 # 创建新的用户地址
 @bp.route('/api/current/address', methods=['POST'])
 def create_address():
@@ -126,16 +112,17 @@ def create_address():
 
 
 # 修改地址信息
-@bp.route('/api/current/addess/<int:a_id>', methods=['POST', 'GET'])
+@bp.route('/api/current/address/<int:a_id>', methods=['POST', 'GET'])
 def update_address(a_id):
     current_user = get_current_user()
     if current_user is None:
         return fail(HTTP_UNAUTHORIZED, u'请使用微信客户端登录')
 
     addr = Address.get(a_id)
+    if addr is None or addr.user_id != current_user.id:
+        return fail(HTTP_NOT_FOUND, u'地址不存在')
+
     if request.method == 'POST':
-        if addr is None:
-            return fail(HTTP_NOT_FOUND, u'地址未找到')
         province = request.json.get('province')
         city = request.json.get('city')
         area = request.json.get('area')
@@ -151,12 +138,8 @@ def update_address(a_id):
         addr.contact_phone = contact_phone
 
         addr.save()
-
         return success(addr.as_resp())
     elif request.method == 'GET':
-        if addr is None or addr.user_id != current_user.id:
-            return fail(HTTP_NOT_FOUND, u'地址不存在')
-
         return success(addr.as_resp())
 
     return fail(HTTP_OK, u'未知异常..')
