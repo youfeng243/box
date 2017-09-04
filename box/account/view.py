@@ -7,7 +7,7 @@ from flask import Blueprint, request, session
 from box.account.model import User, Address
 from box.captcha.sms import validate_captcha
 from box.const import (HTTP_BAD_REQUEST, HTTP_UNAUTHORIZED, HTTP_NOT_FOUND,
-                       EMSG_PARAMS_MISSING)
+                       EMSG_PARAMS_MISSING, HTTP_OK)
 from box.utils import logger
 from box.utils.api import success, fail
 from box.wechat.auth import wechat_login, get_current_user
@@ -67,7 +67,7 @@ def create_profile():
 
 # 获取当前用户所有的地址信息
 @bp.route('/api/current/address', methods=['GET'])
-def address():
+def address_list():
     current_user = get_current_user()
     if current_user is None:
         return fail(HTTP_UNAUTHORIZED, u'请使用微信客户端登录')
@@ -77,17 +77,17 @@ def address():
 
 
 # 获取单个地址信息接口
-@bp.route('/api/current/address/<int:aid>', methods=['GET'])
-def get_address(aid):
-    current_user = get_current_user()
-    if current_user is None:
-        return fail(HTTP_UNAUTHORIZED, u'请使用微信客户端登录')
-
-    address = Address.get(aid)
-    if address is None or address.user_id != current_user.id:
-        return fail(HTTP_NOT_FOUND, u'地址不存在')
-
-    return success(address.as_resp())
+# @bp.route('/api/current/address/<int:aid>', methods=['GET'])
+# def get_address(aid):
+#     current_user = get_current_user()
+#     if current_user is None:
+#         return fail(HTTP_UNAUTHORIZED, u'请使用微信客户端登录')
+#
+#     address = Address.get(aid)
+#     if address is None or address.user_id != current_user.id:
+#         return fail(HTTP_NOT_FOUND, u'地址不存在')
+#
+#     return success(address.as_resp())
 
 
 # 创建新的用户地址
@@ -101,8 +101,6 @@ def create_address():
     if request.json is None:
         return fail(HTTP_BAD_REQUEST, EMSG_PARAMS_MISSING)
 
-    # 打印json数据
-    # logger.info(request.json)
     logger.info(json.dumps(request.json, ensure_ascii=False))
 
     province = request.json.get('province')
@@ -113,16 +111,6 @@ def create_address():
     location = request.json.get('location')
     contact_name = request.json.get('contact_name')
     contact_phone = request.json.get('contact_phone')
-
-    # print user_id
-    # print province
-    # print city
-    # print area
-    # print location
-    # print contact_name
-    # print contact_phone
-    # logger.info("insert data: user_id = {} province = {} city = {} area = {} location = {} name = {} phone = {}".format(
-    #     user_id, province, city, area, location, contact_name, contact_phone))
 
     addr = Address.create(
         user_id=user_id,
@@ -138,34 +126,40 @@ def create_address():
 
 
 # 修改地址信息
-@bp.route('/api/current/addess/<int:id>', methods=['POST'])
-def update_address(id):
+@bp.route('/api/current/addess/<int:a_id>', methods=['POST', 'GET'])
+def update_address(a_id):
     current_user = get_current_user()
     if current_user is None:
         return fail(HTTP_UNAUTHORIZED, u'请使用微信客户端登录')
 
-    addr = Address.get(id)
+    addr = Address.get(a_id)
+    if request.method == 'POST':
+        if addr is None:
+            return fail(HTTP_NOT_FOUND, u'地址未找到')
+        province = request.json.get('province')
+        city = request.json.get('city')
+        area = request.json.get('area')
+        location = request.json.get('location')
+        contact_name = request.json.get('contact_name')
+        contact_phone = request.json.get('contact_phone')
 
-    if addr is None:
-        return fail(HTTP_NOT_FOUND, u'地址未找到')
+        addr.province = province
+        addr.city = city
+        addr.area = area
+        addr.location = location
+        addr.contact_name = contact_name
+        addr.contact_phone = contact_phone
 
-    province = request.json.get('province')
-    city = request.json.get('city')
-    area = request.json.get('area')
-    location = request.json.get('location')
-    contact_name = request.json.get('contact_name')
-    contact_phone = request.json.get('contact_phone')
+        addr.save()
 
-    addr.province = province
-    addr.city = city
-    addr.area = area
-    addr.location = location
-    addr.contact_name = contact_name
-    addr.contact_phone = contact_phone
+        return success(addr.as_resp())
+    elif request.method == 'GET':
+        if addr is None or addr.user_id != current_user.id:
+            return fail(HTTP_NOT_FOUND, u'地址不存在')
 
-    addr.save()
+        return success(addr.as_resp())
 
-    return success(addr.as_resp())
+    return fail(HTTP_OK, u'未知异常..')
 
 
 # 删除地址信息
@@ -175,11 +169,10 @@ def delete_address(id):
     if current_user is None:
         return fail(HTTP_UNAUTHORIZED, u'请使用微信客户端登录')
 
-    address = Address.get(id)
-
-    if address is None:
+    addr = Address.get(id)
+    if addr is None:
         return fail(HTTP_NOT_FOUND, u'地址未找到')
 
-    address.delete()
+    addr.delete()
 
     return success(None)
