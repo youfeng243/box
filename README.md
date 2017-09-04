@@ -4,25 +4,14 @@ CMS based on Flask
 
 ## Quick Start
 
-#### 1. Install pip, virtualenv
-`sudo apt-get install python-pip`
+#### 0.Init environment
+`sh init.sh`
 
-`pip install virtualenv`
 
-#### 2. Create virtual environment
-`virtualenv env`
+#### 1.Start server
+`sh run.sh start`
 
-#### 3. Activate virtual environment
-`source ./env/bin/activate`
 
-#### 4. Install dependencies of Koromon
-`pip install -r requirements.txt`
 
-#### 5. Copy example config and set local config
-`cp .env.sample .env`
-
-edit `.env` according to your environment
-
-#### 6. Start server
-`honcho run python manage.py runserver --port [your port]`
-
+#### 2.Stop server
+`sh run.sh stop`
