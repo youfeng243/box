@@ -52,7 +52,8 @@ class User(db.Model):
         user = User(
             password='',
             mobile=mobile,
-            nickname='nickname',
+            # todo 昵称需要通过微信端获取 参考 http://www.cnblogs.com/txw1958/p/weixin76-user-info.html
+            nickname='',
             openid=openid,
             avatar_url='/images/avatar.png',
         )
