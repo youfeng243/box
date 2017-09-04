@@ -138,15 +138,15 @@ def create_address():
 
 
 # 修改地址信息
-@bp.route('/api/current/addess/<int:id>', methods=[])
+@bp.route('/api/current/addess/<int:id>', methods=['POST'])
 def update_address(id):
     current_user = get_current_user()
     if current_user is None:
         return fail(HTTP_UNAUTHORIZED, u'请使用微信客户端登录')
 
-    address = Address.get(id)
+    addr = Address.get(id)
 
-    if address is None:
+    if addr is None:
         return fail(HTTP_NOT_FOUND, u'地址未找到')
 
     province = request.json.get('province')
@@ -156,16 +156,16 @@ def update_address(id):
     contact_name = request.json.get('contact_name')
     contact_phone = request.json.get('contact_phone')
 
-    address.province = province
-    address.city = city
-    address.area = area
-    address.location = location
-    address.contact_name = contact_name
-    address.contact_phone = contact_phone
+    addr.province = province
+    addr.city = city
+    addr.area = area
+    addr.location = location
+    addr.contact_name = contact_name
+    addr.contact_phone = contact_phone
 
-    address.save()
+    addr.save()
 
-    return success(address.as_resp())
+    return success(addr.as_resp())
 
 
 # 删除地址信息
