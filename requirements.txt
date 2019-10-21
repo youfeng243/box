@@ -18,5 +18,5 @@ requests==2.18.2
 requests-futures==0.9.7
 SQLAlchemy==1.1.12
 urllib3==1.22
-Werkzeug==0.12.2
+Werkzeug==0.15.3
 Flask-login==0.4.0
